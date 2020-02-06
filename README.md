@@ -10,6 +10,8 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 `/api/users/signup` and `/api/users/signin` are available.
 
+On both signup and signin you should send a json payload containing the email and the password.
+
 Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
 
 ## Learn more
