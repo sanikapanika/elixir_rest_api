@@ -5,10 +5,20 @@ defmodule ElixirRestApiWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", ElixirRestApiWeb do
+  pipeline :auth do
+    plug ElixirRestApiWeb.Auth.Pipeline
+  end
+
+  scope "/auth", ElixirRestApiWeb do
     pipe_through :api
     post "/users/signup", UserController, :create
     post "/users/signin", UserController, :signin
+  end
+
+  scope "/api", ElixirRestApiWeb do
+    pipe_through [:api, :auth]
+    get "/content/posts/:id", PostController, :get_post
+    resources "/comments", CommentController, except: [:new, :edit]
   end
 
   pipeline :browser do
