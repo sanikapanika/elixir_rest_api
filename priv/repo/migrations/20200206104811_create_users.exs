@@ -5,6 +5,7 @@ defmodule ElixirRestApi.Repo.Migrations.CreateUsers do
     create table(:users) do
       add :email, :string
       add :encrypted_password, :string
+      add :claims, {:array, :string}
 
       timestamps()
     end

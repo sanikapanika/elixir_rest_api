@@ -13,4 +13,4 @@
 alias ElixirRestApi.Repo
 alias ElixirRestApi.Accounts.User
 
-Repo.insert!(User.changeset(%User{}, %{email: "user1@gmail.com", password: "administrator"}))
+Repo.insert!(User.changeset(%User{}, %{email: "user1@gmail.com", password: "administrator", claims: ["admin", "user"]}))

@@ -10,9 +10,10 @@ defmodule ElixirRestApiWeb.UserView do
     %{data: render_one(user, UserView, "user.json")}
   end
 
-  def render("user.json", %{user: user, token: token}) do
+  def render("user.json", %{user: user, token: token, claims: claims}) do
     %{id: user.id,
       email: user.email,
-      token: token}
+      token: token,
+      claims: claims}
   end
 end

@@ -14,10 +14,10 @@ defmodule ElixirRestApiWeb.UserController do
 
   def create(conn, %{"user" => user_params}) do
     with {:ok, %User{} = user} <- Accounts.create_user(user_params),
-         {:ok, token, _claims} <- Guardian.encode_and_sign(user) do
+         {:ok, token, claims} <- Guardian.encode_and_sign(user) do
       conn
       |> put_status(:created)
-      |> render("user.json", %{user: user, token: token})
+      |> render("user.json", %{user: user, token: token, claims: claims})
     end
   end
 
@@ -43,10 +43,10 @@ defmodule ElixirRestApiWeb.UserController do
   end
 
   def signin(conn, %{"email" => email, "password" => password}) do
-    with {:ok, user, token} <- Guardian.authenticate(email, password) do
+    with {:ok, user, token, claims} <- Guardian.authenticate(email, password) do
       conn
       |> put_status(:created)
-      |> render("user.json", %{user: user, token: token})
+      |> render("user.json", %{user: user, token: token, claims: claims})
     end
   end
 end
