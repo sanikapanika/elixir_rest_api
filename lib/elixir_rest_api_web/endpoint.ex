@@ -10,19 +10,11 @@ defmodule ElixirRestApiWeb.Endpoint do
     signing_salt: "j5Ap2gCZ"
   ]
 
-  socket "/socket", ElixirRestApiWeb.UserSocket,
-    websocket: true,
-    longpoll: false
+  socket "/socket",
+         ElixirRestApiWeb.UserSocket,
+         websocket: true,
+         longpoll: false
 
-  # Serve at "/" the static files from "priv/static" directory.
-  #
-  # You should set gzip to true if you are running phx.digest
-  # when deploying your static files in production.
-  plug Plug.Static,
-    at: "/",
-    from: :elixir_rest_api,
-    gzip: false,
-    only: ~w(css fonts images js favicon.ico robots.txt)
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
@@ -34,12 +26,21 @@ defmodule ElixirRestApiWeb.Endpoint do
   plug Plug.Telemetry, event_prefix: [:phoenix, :endpoint]
 
   plug Plug.Parsers,
-    parsers: [:urlencoded, :multipart, :json],
-    pass: ["*/*"],
-    json_decoder: Phoenix.json_library()
+       parsers: [:urlencoded, :multipart, :json],
+       pass: ["application/json"],
+       json_decoder: Phoenix.json_library()
 
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
   plug ElixirRestApiWeb.Router
+
+  def init(_key, config) do
+    if config[:loac_from_system_env] do
+      port = Application.get_env(:elixir_rest_api, :app_port) || raise "expected the PORT environment var to be set"
+      {:ok, Keyword.put(config, :http, [:inet6, port: port])}
+    else
+      {:ok, config}
+    end
+  end
 end

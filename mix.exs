@@ -5,12 +5,20 @@ defmodule ElixirRestApi.MixProject do
     [
       app: :elixir_rest_api,
       version: "0.1.0",
-      elixir: "~> 1.5",
+      elixir: "~> 1.10.1",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      releases: [
+        prod: [
+          include_executables_for: [:unix],
+          applications: [
+            runtime_tools: :permanent
+          ]
+        ],
+      ]
     ]
   end
 

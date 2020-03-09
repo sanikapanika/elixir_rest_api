@@ -4,7 +4,7 @@ use Mix.Config
 config :elixir_rest_api, ElixirRestApi.Repo,
   username: "postgres",
   password: "postgres",
-  database: "elixir_rest_api_dev",
+  database: "elixir_rest_api",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
